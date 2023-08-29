@@ -26,6 +26,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 //import components
 import imagenes from '../../assets/index';
 
+//properties
+import { properties } from "../Properties/properties";
+
 //icons
 
 
@@ -44,13 +47,22 @@ export default function SigIn() {
   //const for navigate 
   const navigate = useNavigate();
 
+  const goRegister = () => {
+    navigate(properties.endpoints.Register)
+  }
+  
+  const goHome = () => {
+    navigate(properties.endpoints.Home)
+  }
+
+
   //variable for backEnd
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  
+
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     //para detener el evento, en este caso el submit del click para que no cargue la pagina
 
     // const data = new FormData(e.currentTarget);
@@ -66,13 +78,13 @@ export default function SigIn() {
         user: user,
         password: password,
       })
-      .then((response) => {
-        // console.log(response);
-        if (response.data === "" || response.data === 1) {
-        } else if (response.data !== 1) {
-          navigate("/Home");
-        }
-      })
+      // .then((response) => {
+      //   // console.log(response);
+      //   // if (response.data === "" || response.data === 1) {
+      //   // } else if (response.data !== 1) {
+      //   //   navigate("/Home");
+      //   // }
+      // })
       .catch(function (error) {
         console.log(error);
       });
@@ -99,6 +111,7 @@ export default function SigIn() {
   const forgetMenuClose = () => {
     setforgetMenu(false);
   };
+
 
 
   return (
@@ -164,27 +177,28 @@ export default function SigIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              >
+              onClick={goHome}
+            >
               Entrar
             </Button>
             <Grid container>
               <Grid item xs>
-                <Typography onClick={forgetMenuOpen} sx={{cursor:"pointer", color:"#1976d2", fontSize:"0.875rem"}}>
-                ¿Olvidaste tu contraseña?
+                <Typography onClick={forgetMenuOpen} sx={{ cursor: "pointer", color: "#1976d2", fontSize: "0.875rem" }}>
+                  ¿Olvidaste tu contraseña?
                 </Typography>
-            <Dialog
-              open={forgetMenu}
-              TransitionComponent={Transition}
-              onClose={forgetMenuClose}
-              aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle>{"¿Olvidaste tu usuario?"}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-slide-description">
-                    Para recuperar la contraseña ingresa tu correo electronico.
-                    <br/>
-                    Revisa e ingresa al link enviado al correo.
-                  </DialogContentText>
+                <Dialog
+                  open={forgetMenu}
+                  TransitionComponent={Transition}
+                  onClose={forgetMenuClose}
+                  aria-describedby="alert-dialog-slide-description"
+                >
+                  <DialogTitle>{"¿Olvidaste tu usuario?"}</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                      Para recuperar la contraseña ingresa tu correo electronico.
+                      <br />
+                      Revisa e ingresa al link enviado al correo.
+                    </DialogContentText>
                     <TextField
                       autoFocus
                       margin="dense"
@@ -195,15 +209,15 @@ export default function SigIn() {
                       fullWidth
                       variant="standard"
                     />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={forgetMenuClose}>Cerrar</Button>
-                  <Button onClick={forgetMenuClose}>Enviar</Button>
-                </DialogActions>
-            </Dialog>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={forgetMenuClose}>Cerrar</Button>
+                    <Button onClick={forgetMenuClose}>Enviar</Button>
+                  </DialogActions>
+                </Dialog>
               </Grid>
               <Grid item>
-                <Link href="/Register" variant="body2" sx={{textDecoration:"none"}}>
+                <Link onClick={goRegister} variant="body2" sx={{ textDecoration: "none", cursor:"pointer" }}>
                   {"Registrarse"}
                 </Link>
               </Grid>

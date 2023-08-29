@@ -26,6 +26,7 @@ import MenuItem from "@mui/material/MenuItem";
 // import Select, { SelectChangeEvent } from "@mui/material/Select";
 // import { styled } from "@mui/material/styles";
 // import Paper from "@mui/material/Paper";
+import { properties } from "../Properties/properties";
 
 //import components
 import imagenes from '../../assets/index';
@@ -37,46 +38,50 @@ const User = "http://localhost:8000/api/User";
 const Employee = "http://localhost:8000/api/Employee";
 
 export default function Register() {
-    const navigate = useNavigate();
-    
-    const [user, setUser] = useState("");
-    const [password, setPassword] = useState("");
-    const [document_type, setDocumentType] = useState("");
-    const [id_identity, setIdIdentity] = useState("");
-    const [name, setName] = useState("");
-    const [last_name, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [birthday, setBirthday] = useState("");
-    const [gender, setGender] = useState("");
-    const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
-    // const [age, setAge] = useState("");
-    const [country, setCountry] = useState("");
-    const [codArea, SetCodArea] = useState("");
-    
-    const store = async (e) => {
-        e.preventDefault();
+  const navigate = useNavigate();
 
-        await axios.post(User, {
-        user: user,
-        password: password
-        });
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [document_type, setDocumentType] = useState("");
+  const [id_identity, setIdIdentity] = useState("");
+  const [name, setName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [gender, setGender] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  // const [age, setAge] = useState("");
+  const [country, setCountry] = useState("");
+  const [codArea, SetCodArea] = useState("");
 
-        await axios.post(Employee, {
-            id_identity: id_identity,
-            name: name,
-            last_name: last_name,
-            email: email,
-            birthday: birthday,
-            gender: gender,
-            phone: phone,
-            address: address,
-            document_type: document_type,
-            country: country
-        });
-        
-        navigate("/");
-    };
+  const store = async (e) => {
+    e.preventDefault();
+
+    await axios.post(User, {
+      user: user,
+      password: password
+    });
+
+    await axios.post(Employee, {
+      id_identity: id_identity,
+      name: name,
+      last_name: last_name,
+      email: email,
+      birthday: birthday,
+      gender: gender,
+      phone: phone,
+      address: address,
+      document_type: document_type,
+      country: country
+    });
+
+    navigate("/");
+  };
+
+  const goHome = () =>{
+    navigate(properties.endpoints.SigIn)
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -327,7 +332,7 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/" variant="body2" sx={{textDecoration:"none"}}>
+                <Link onClick={goHome} variant="body2" sx={{ textDecoration: "none", cursor:"pointer" }}>
                   ¿Ya tienes una cuenta? Ingresa.
                 </Link>
               </Grid>
