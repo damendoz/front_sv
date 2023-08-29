@@ -140,7 +140,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 // eslint-disable-next-line react/prop-types
-export default function DrawerAppBar({ children, openDrawer }) {
+export default function DrawerApp({ children, openDrawer }) {
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(openDrawer);
 
@@ -334,7 +335,7 @@ export default function DrawerAppBar({ children, openDrawer }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List onClick={handleDrawerOpen}>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }} >
               <ListItemButton
@@ -361,7 +362,7 @@ export default function DrawerAppBar({ children, openDrawer }) {
           ))}
         </List>
         <Divider />
-        <List>
+        <List onClick={handleDrawerOpen}>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton

@@ -3,7 +3,7 @@
 
 
 //components
-import DrawerAppBar from '../DrawerAppBar'
+import DrawerApp from '../Drawer'
 
 
 
@@ -18,11 +18,9 @@ export default function Home() {
 
   return (
     <section className='main__home'>
-      <DrawerAppBar openDrawer={false}>
-        <div>
-          que locura
-        </div>
-      </DrawerAppBar>
+      <DrawerApp openDrawer={false}>
+        hola
+      </DrawerApp>
     </section>
   )
 
