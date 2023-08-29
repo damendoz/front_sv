@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 //mui
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -15,17 +16,38 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Slide from "@mui/material/Slide";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 //import components
 import imagenes from '../../assets/index';
 
+//icons
+
+
+
+//transition
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const theme = createTheme();
 const UserLogin = "http://localhost:8000/api/User/Login";
 
+//function SigIn
 export default function SigIn() {
+
+  //const for navigate 
+  const navigate = useNavigate();
+
+  //variable for backEnd
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -38,6 +60,7 @@ export default function SigIn() {
     //   remember: checked,
     // });
 
+    //send information to backEnd
     await axios
       .post(UserLogin, {
         user: user,
@@ -55,12 +78,28 @@ export default function SigIn() {
       });
   };
 
-  const [checked, setChecked] = React.useState(false);
+  //Checked remember box
 
-  const handleChange = (e) => {
-    setChecked(e.target.checked);
-    // console.log(e);
+  // const [checked, setChecked] = React.useState(false);
+
+  // const handleChange = (e) => {
+  //   setChecked(e.target.checked);
+  //   // console.log(e);
+  // };
+
+
+  //Open Modal forget password
+
+  const [forgetMenu, setforgetMenu] = React.useState(false);
+
+  const forgetMenuOpen = () => {
+    setforgetMenu(true);
   };
+
+  const forgetMenuClose = () => {
+    setforgetMenu(false);
+  };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -130,12 +169,41 @@ export default function SigIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/" variant="body2">
-                  {"¿Olvidaste tu contraseña?"}
-                </Link>
+                <Typography onClick={forgetMenuOpen} sx={{cursor:"pointer", color:"#1976d2", fontSize:"0.875rem"}}>
+                ¿Olvidaste tu contraseña?
+                </Typography>
+            <Dialog
+              open={forgetMenu}
+              TransitionComponent={Transition}
+              onClose={forgetMenuClose}
+              aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"¿Olvidaste tu usuario?"}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-slide-description">
+                    Para recuperar la contraseña ingresa tu correo electronico.
+                    <br/>
+                    Revisa e ingresa al link enviado al correo.
+                  </DialogContentText>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      name="forgotPassword"
+                      id="forgotPassword"
+                      label="Correo electronico"
+                      type="email"
+                      fullWidth
+                      variant="standard"
+                    />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={forgetMenuClose}>Cerrar</Button>
+                  <Button onClick={forgetMenuClose}>Enviar</Button>
+                </DialogActions>
+            </Dialog>
               </Grid>
               <Grid item>
-                <Link href="/" variant="body2">
+                <Link href="/Register" variant="body2" sx={{textDecoration:"none"}}>
                   {"Registrarse"}
                 </Link>
               </Grid>

@@ -1,10 +1,19 @@
-#colorGrid1{
-    color: #fff;
+#colorGrid1 {
+  color: #fff;
 }
 
-#colorGrid2{
-    color: #fff;
+#colorGrid2 {
+  color: #fff;
 }
-#colorGrid3{
-    color: #fff;
+#colorGrid3 {
+  color: #fff;
+}
+
+#input__parametroBusqueda {
+  padding-left: 1rem;
+  height: 2.79em;
+}
+#input__parametroBusqueda:hover {
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.26);
+  border-radius: 4px;
 }
