@@ -7,12 +7,9 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -39,7 +36,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const theme = createTheme();
-const UserLogin = "http://localhost:8000/api/User/Login";
+const UserLogin = properties.Apis.Login;
 
 //function SigIn
 export default function SigIn() {
@@ -47,20 +44,23 @@ export default function SigIn() {
   //const for navigate 
   const navigate = useNavigate();
 
+  //function go to Register page
   const goRegister = () => {
     navigate(properties.endpoints.Register)
   }
-  
-  const goHome = () => {
-    navigate(properties.endpoints.Home)
-  }
+
+  //function go to Home page
+  // const goHome = () => {
+  //   navigate(properties.endpoints.Home)
+  // }
 
 
-  //variable for backEnd
+  //vars for backEnd
   const [user, setUser] = useState("");
+
   const [password, setPassword] = useState("");
 
-
+  //const for send to api method get
   const handleSubmit = async (e) => {
     e.preventDefault();
     //para detener el evento, en este caso el submit del click para que no cargue la pagina
@@ -104,10 +104,12 @@ export default function SigIn() {
 
   const [forgetMenu, setforgetMenu] = React.useState(false);
 
+  //Set open modal to true (open)
   const forgetMenuOpen = () => {
     setforgetMenu(true);
   };
 
+  //Set open modal to false (close)
   const forgetMenuClose = () => {
     setforgetMenu(false);
   };
@@ -127,7 +129,8 @@ export default function SigIn() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "#fff" }}>
-            <img src={imagenes[0].iconoEmpresa} alt={imagenes[0].title} />
+            <img src={imagenes[0].iconoEmpresa}
+              alt={imagenes[0].title} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Iniciar sesión
@@ -135,7 +138,7 @@ export default function SigIn() {
           <Box
             component="form"
             onSubmit={handleSubmit}
-            noValidate
+            // noValidate
             sx={{ mt: 1 }}
           >
             <TextField
@@ -144,21 +147,23 @@ export default function SigIn() {
               fullWidth
               id="user"
               label="Usuario"
-              name="usuario"
+              name="user"
               onChange={(e) => setUser(e.target.value)}
-              autoComplete="usuario"
+              autoComplete="user"
+              type="text"
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
+              id="password"
+              label="Contraseña"
               name="password"
               onChange={(e) => setPassword(e.target.value)}
-              label="Contraseña"
-              type="password"
-              id="password"
               autoComplete="password"
+              type="password"
+              autoFocus
             />
             {/* <FormControlLabel
               control={
@@ -177,13 +182,18 @@ export default function SigIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={goHome}
             >
               Entrar
             </Button>
             <Grid container>
               <Grid item xs>
-                <Typography onClick={forgetMenuOpen} sx={{ cursor: "pointer", color: "#1976d2", fontSize: "0.875rem" }}>
+                <Typography
+                  onClick={forgetMenuOpen}
+                  sx={{
+                    cursor: "pointer",
+                    color: "#1976d2",
+                    fontSize: "0.875rem"
+                  }}>
                   ¿Olvidaste tu contraseña?
                 </Typography>
                 <Dialog
@@ -192,7 +202,9 @@ export default function SigIn() {
                   onClose={forgetMenuClose}
                   aria-describedby="alert-dialog-slide-description"
                 >
-                  <DialogTitle>{"¿Olvidaste tu usuario?"}</DialogTitle>
+                  <DialogTitle>
+                    {"¿Olvidaste tu usuario?"}
+                  </DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
                       Para recuperar la contraseña ingresa tu correo electronico.
@@ -211,13 +223,22 @@ export default function SigIn() {
                     />
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={forgetMenuClose}>Cerrar</Button>
-                    <Button onClick={forgetMenuClose}>Enviar</Button>
+                    <Button onClick={forgetMenuClose}>
+                      Cerrar
+                    </Button>
+                    <Button onClick={forgetMenuClose}>
+                      Enviar
+                    </Button>
                   </DialogActions>
                 </Dialog>
               </Grid>
               <Grid item>
-                <Link onClick={goRegister} variant="body2" sx={{ textDecoration: "none", cursor:"pointer" }}>
+                <Link onClick={goRegister}
+                  variant="body2"
+                  sx={{
+                    textDecoration: "none",
+                    cursor: "pointer"
+                  }}>
                   {"Registrarse"}
                 </Link>
               </Grid>

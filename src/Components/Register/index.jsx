@@ -1,31 +1,21 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-// import { useDispatch } from 'react-redux';
+import { useState } from "react";
 
 //mui
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-// import InputBase from '@mui/material/InputBase';
-// import InputLabel from '@mui/material/InputLabel';
-// import FormControl from '@mui/material/FormControl';
-// import FormControl from "@mui/material/FormControl";
-// import Select, { SelectChangeEvent } from "@mui/material/Select";
-// import { styled } from "@mui/material/styles";
-// import Paper from "@mui/material/Paper";
+
+//properties
 import { properties } from "../Properties/properties";
 
 //import components
@@ -34,28 +24,28 @@ import imagenes from '../../assets/index';
 
 const theme = createTheme();
 
-const User = "http://localhost:8000/api/User";
-const Employee = "http://localhost:8000/api/Employee";
+const User = properties.Apis.Users;
+
+const Employee = properties.Apis.Employers;
 
 export default function Register() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const [document_type, setDocumentType] = useState("");
-  const [id_identity, setIdIdentity] = useState("");
+  const [documentType, setDocumentType] = useState("");
+  const [idIdentity, setIdIdentity] = useState("");
   const [name, setName] = useState("");
-  const [last_name, setLastName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  // const [age, setAge] = useState("");
   const [country, setCountry] = useState("");
   const [codArea, SetCodArea] = useState("");
 
-  const store = async (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
 
     await axios.post(User, {
@@ -64,22 +54,22 @@ export default function Register() {
     });
 
     await axios.post(Employee, {
-      id_identity: id_identity,
+      id_identity: idIdentity,
       name: name,
-      last_name: last_name,
+      last_name: lastName,
       email: email,
       birthday: birthday,
       gender: gender,
       phone: phone,
       address: address,
-      document_type: document_type,
+      document_type: documentType,
       country: country
     });
 
-    navigate("/");
+    navigate(properties.endpoints.SigIn);
   };
 
-  const goHome = () =>{
+  const goHome = () => {
     navigate(properties.endpoints.SigIn)
   }
 
@@ -96,7 +86,10 @@ export default function Register() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "#fff" }}>
-            <img src={imagenes[0].iconoEmpresa} alt={imagenes[0].title} />
+            <img
+              src={imagenes[0].iconoEmpresa}
+              alt={imagenes[0].title}
+            />
           </Avatar>
           <Typography component="h1" variant="h5">
             Registro
@@ -105,26 +98,31 @@ export default function Register() {
           <Box
             component="form"
             noValidate
-            onSubmit={store}
+            onSubmit={registerUser}
             sx={{ flexGrow: 1, mt: 1.5 }}
           >
             <Grid container spacing={2}>
               <Grid item xs={3.2}>
                 <TextField
+                  required
                   name="country"
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  required
                   id="country"
                   label="País"
-                  select
                   fullWidth
+                  autoComplete="country"
+                  select
                   InputLabelProps={{
                     shrink: true,
                   }}
                 >
-                  <MenuItem value="Venezuela">Venezuela</MenuItem>
-                  <MenuItem value="España">España</MenuItem>
+                  <MenuItem value="Venezuela">
+                    Venezuela
+                  </MenuItem>
+                  <MenuItem value="España">
+                    España
+                  </MenuItem>
                   <MenuItem value="Republica Dominicana">
                     Republica Dominicana
                   </MenuItem>
@@ -133,29 +131,29 @@ export default function Register() {
               <Grid item xs={3.3}>
                 <TextField
                   required
-                  error={false}
-                  autoComplete="given-name"
                   name="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  fullWidth
                   id="name"
                   label="Nombres"
+                  fullWidth
+                  autoComplete="name"
                   InputLabelProps={{
                     shrink: true,
                   }}
+
                 />
               </Grid>
               <Grid item xs={3}>
                 <TextField
-                  autoComplete="given-name"
-                  name="last_name"
-                  value={last_name}
-                  onChange={(e) => setLastName(e.target.value)}
                   required
+                  name="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  id="lastName"
                   fullWidth
-                  id="last_name"
                   label="Apellidos"
+                  autoComplete="lastName"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -163,15 +161,15 @@ export default function Register() {
               </Grid>
               <Grid item xs={2.5}>
                 <TextField
-                  fullWidth
-                  autoComplete="given-birthday"
+                  required
                   name="birthday"
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
-                  required
                   id="birthday"
-                  type="date"
+                  fullWidth
                   label="Fecha de nacimiento"
+                  autoComplete="birthday"
+                  type="date"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -179,14 +177,15 @@ export default function Register() {
               </Grid>
               <Grid item xs={1.1}>
                 <TextField
-                  name="document_type"
-                  value={document_type}
-                  onChange={(e) => setDocumentType(e.target.value)}
                   required
-                  id="document_type"
-                  label="ID"
-                  select
+                  name="documentType"
+                  value={documentType}
+                  onChange={(e) => setDocumentType(e.target.value)}
+                  id="documentType"
                   fullWidth
+                  label="ID"
+                  autoComplete="documentType"
+                  select
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -198,14 +197,14 @@ export default function Register() {
               </Grid>
               <Grid item xs={2}>
                 <TextField
-                  fullWidth
-                  autoComplete="given-name"
-                  name="id_identity"
-                  value={id_identity}
-                  onChange={(e) => setIdIdentity(e.target.value)}
                   required
-                  id="id_identity"
+                  name="idIdentity"
+                  value={idIdentity}
+                  onChange={(e) => setIdIdentity(e.target.value)}
+                  id="idIdentity"
+                  fullWidth
                   label="Documento de ID"
+                  autoComplete="idIdentity"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -213,14 +212,15 @@ export default function Register() {
               </Grid>
               <Grid item xs={1.4}>
                 <TextField
-                  fullWidth
+                  required
                   name="gender"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
-                  required
-                  select
                   id="gender"
+                  fullWidth
                   label="Género"
+                  autoComplete="gender"
+                  select
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -231,13 +231,14 @@ export default function Register() {
               </Grid>
               <Grid item xs={2}>
                 <TextField
-                  fullWidth
+                  required
                   name="codArea"
                   value={codArea}
                   onChange={(e) => SetCodArea(e.target.value)}
-                  required
                   id="codArea"
+                  fullWidth
                   label="Código del área"
+                  autoComplete="codArea"
                   select
                   InputLabelProps={{
                     shrink: true,
@@ -249,14 +250,14 @@ export default function Register() {
               </Grid>
               <Grid item xs={2}>
                 <TextField
-                  fullWidth
-                  autoComplete="given-name"
+                  required
                   name="phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  required
                   id="phone"
+                  fullWidth
                   label="Teléfono"
+                  autoComplete="phone"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -264,14 +265,14 @@ export default function Register() {
               </Grid>
               <Grid item xs={3.5}>
                 <TextField
-                  fullWidth
-                  autoComplete="given-name"
+                  required
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                   id="email"
+                  fullWidth
                   label="Correo electrónico"
+                  autoComplete="email"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -279,17 +280,17 @@ export default function Register() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  fullWidth
-                  autoComplete="given-name"
+                  required
                   name="address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  required
+                  id="adress"
+                  fullWidth
+                  label="Dirección"
+                  autoComplete="address"
+                  type="textarea"
                   multiline
                   rows={4}
-                  type="textarea"
-                  id="adress"
-                  label="Dirección"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -297,28 +298,28 @@ export default function Register() {
               </Grid>
               <Grid item xs={6}>
                 <TextField
-                  autoComplete="new-user"
+                  required
                   name="user"
                   value={user}
                   onChange={(e) => setUser(e.target.value)}
-                  required
-                  fullWidth
                   id="user"
+                  fullWidth
                   label="Usuario"
+                  autoComplete="user"
                   autoFocus
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   required
-                  fullWidth
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  label="Contraseña"
-                  type="password"
                   id="password"
-                  autoComplete="new-password"
+                  fullWidth
+                  label="Contraseña"
+                  autoComplete="password"
+                  type="password"
                 />
               </Grid>
             </Grid>
@@ -332,7 +333,13 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link onClick={goHome} variant="body2" sx={{ textDecoration: "none", cursor:"pointer" }}>
+                <Link
+                  onClick={goHome}
+                  variant="body2"
+                  sx={{
+                    textDecoration: "none",
+                    cursor: "pointer"
+                  }}>
                   ¿Ya tienes una cuenta? Ingresa.
                 </Link>
               </Grid>
@@ -342,4 +349,4 @@ export default function Register() {
       </Container>
     </ThemeProvider>
   );
-};
+}
