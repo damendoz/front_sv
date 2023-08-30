@@ -20,19 +20,30 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import PropTypes from 'prop-types';
 
 //Mui icons
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import PeopleIcon from '@mui/icons-material/People';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import LogoutIcon from '@mui/icons-material/Logout';
+import WarningIcon from '@mui/icons-material/Warning';
+import Collapse from '@mui/material/Collapse';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-const drawerWidth = 200;
+//properties
+
+import { properties } from '../Properties/properties';
+
+const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -139,11 +150,106 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// eslint-disable-next-line react/prop-types
+const listAnticipo = [
+  {
+    text: 'Anticipos',
+    icon: <PostAddIcon />,
+    openIcon: <ExpandLess />,
+    closeIcon: <ExpandMore />,
+    subMenu: [
+      {
+        text: 'Solicitud de anticipo',
+        icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Consulta de Anticipo',
+        icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Aprobación de Anticipo',
+        icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+
+      }
+    ],
+  }
+]
+
+const list = [
+  {
+    process: [
+      {
+        anticipo: [
+          {
+            text: 'Anticipos',
+            icon: <PostAddIcon />,
+            openIcon: <ExpandLess />,
+            closeIcon: <ExpandMore />,
+            subMenu: [
+              {
+                text: 'Solicitud de anticipo',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+              },
+              {
+                text: 'Consulta de Anticipo',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+              },
+              {
+                text: 'Aprobación de Anticipo',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+
+              }
+            ]
+          }],
+        administrador: [
+          {
+            text: 'Administrador',
+            icon: <PeopleIcon />,
+            openIcon: <ExpandLess />,
+            closeIcon: <ExpandMore />,
+            subMenu: [
+              {
+                text: 'Usuarios',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+              },
+              {
+                text: 'Roles',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+              },
+              {
+                text: 'Clientes',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+              },
+              {
+                text: 'Proyectos',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+              },
+              {
+                text: 'Cargos',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+              },
+              {
+                text: 'Monedas',
+                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+              }
+            ]
+          }
+        ]
+      },
+    ]
+  }
+]
+
+
 export default function DrawerApp({ children, openDrawer }) {
+
+  DrawerApp.propTypes = {
+    children: PropTypes.node.isRequired,
+    openDrawer: PropTypes.bool.isRequired,
+  };
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(openDrawer);
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -151,6 +257,18 @@ export default function DrawerApp({ children, openDrawer }) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const [openIcon, setOpenIcon] = React.useState(false);
+
+  const handleIconOpen = () => {
+    setOpenIcon(!openIcon);
+  };
+
+  const [openIconAdm, setOpenIconAdm] = React.useState(false);
+
+  const handleIconOpenAdm = () => {
+    setOpenIconAdm(!openIconAdm);
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -193,8 +311,17 @@ export default function DrawerApp({ children, openDrawer }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Cerrar sesión</MenuItem>
+      <Divider />
+      <Typography
+        variant="body2"
+        color="#1976d2"
+        noWrap
+        sx={{ fontSize: "0.65em", textAlign: "center", padding: "0.5em" }}
+      >
+        Release: {properties.release}
+      </Typography>
     </Menu>
   );
 
@@ -215,27 +342,27 @@ export default function DrawerApp({ children, openDrawer }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
+      </MenuItem> */}
+      <MenuItem onClick={handleMobileMenuClose}>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={1} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>Notificaciones</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={handleMobileMenuClose}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -245,13 +372,34 @@ export default function DrawerApp({ children, openDrawer }) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Perfil</p>
       </MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <LogoutIcon />
+        </IconButton>
+        <p>Cerrar sesión</p>
+      </MenuItem>
+      <Divider />
+      <Typography
+        variant="body2"
+        color="#1976d2"
+        noWrap
+        sx={{ fontSize: "0.65em", textAlign: "center", padding: "0.5em" }}
+      >
+        Release: {properties.release}
+      </Typography>
     </Menu>
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} >
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -273,30 +421,30 @@ export default function DrawerApp({ children, openDrawer }) {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            ITBC Group
           </Typography>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Busqueda…"
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
+            {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={1} color="error">
                 <MailIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label="show notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={0} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -328,7 +476,7 @@ export default function DrawerApp({ children, openDrawer }) {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      <Drawer variant="permanent" open={open}>
+      < Drawer variant="permanent" open={open} >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -336,34 +484,91 @@ export default function DrawerApp({ children, openDrawer }) {
         </DrawerHeader>
         <Divider />
         <List onClick={handleDrawerOpen}>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
+          {list.map((text, index) => (
+            <ListItem key={index} disablePadding sx={{ display: 'block' }} >
+              {text.process.map((text, index) => (
+                <div key={index}>
+                  {text.anticipo.map((text, index) => (
+                    <div key={index}>
+                      <ListItemButton
+                        sx={{
+                          minHeight: 48,
+                          justifyContent: open ? 'initial' : 'center',
+                          px: 2.5,
+                        }}
+                        onClick={handleIconOpen}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : 'auto',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          {text.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={text.text} sx={{ opacity: open ? 1 : 0 }} />
+                        {openIcon ? text.openIcon : text.closeIcon}
+                      </ListItemButton>
+                      <Collapse in={openIcon} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                          {text.subMenu.map((text, index) => (
+                            <ListItemButton key={index} sx={{ pl: 4 }}>
+                              <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
+                                {text.icon}
+                              </ListItemIcon>
+                              <ListItemText primary={text.text} />
+                            </ListItemButton>
+                          ))}
+                        </List>
+                      </Collapse>
+                    </div>
+                  ))}
+                  {text.administrador.map((text, index) => (
+                    <div key={index}>
+                      <ListItemButton
+                        sx={{
+                          minHeight: 48,
+                          justifyContent: open ? 'initial' : 'center',
+                          px: 2.5,
+                        }}
+                        onClick={handleIconOpenAdm}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : 'auto',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          {text.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={text.text} sx={{ opacity: open ? 1 : 0 }} />
+                        {openIconAdm ? text.openIcon : text.closeIcon}
+                      </ListItemButton>
+                      <Collapse in={openIcon} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                          {text.subMenu.map((text, index) => (
+                            <ListItemButton key={index} sx={{ pl: 4 }}>
+                              <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
+                                {text.icon}
+                              </ListItemIcon>
+                              <ListItemText primary={text.text} />
+                            </ListItemButton>
+                          ))}
+                        </List>
+                      </Collapse>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </ListItem>
+
           ))}
         </List>
         <Divider />
         <List onClick={handleDrawerOpen}>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['Reportes', 'Graficos'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -379,18 +584,18 @@ export default function DrawerApp({ children, openDrawer }) {
                     justifyContent: 'center',
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-      </Drawer>
+      </Drawer >
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {children}
       </Box>
-    </Box>
+    </Box >
   );
 }
