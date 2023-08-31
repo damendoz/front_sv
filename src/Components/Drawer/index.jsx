@@ -1,5 +1,6 @@
 //import React
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 
 //import Mui
 import { styled, useTheme, alpha } from '@mui/material/styles';
@@ -7,15 +8,16 @@ import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemButton from '@mui/material/ListItemButton';
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import ListItemText from '@mui/material/ListItemText';
+// import Collapse from '@mui/material/Collapse';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -35,15 +37,17 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import LogoutIcon from '@mui/icons-material/Logout';
-import WarningIcon from '@mui/icons-material/Warning';
-import Collapse from '@mui/material/Collapse';
+// import WarningIcon from '@mui/icons-material/Warning';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import AssigmentIcon from '@mui/icons-material/Assignment';
+
+import { Expand } from './expand';
 
 //properties
 
 import { properties } from '../Properties/properties';
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -150,95 +154,93 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const listAnticipo = [
+const listPrimary = [
+
+  //index 0
   {
-    text: 'Anticipos',
+    id: 1,
+    title: 'Anticipos',
     icon: <PostAddIcon />,
     openIcon: <ExpandLess />,
     closeIcon: <ExpandMore />,
+    expand: false,
     subMenu: [
       {
         text: 'Solicitud de anticipo',
-        icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
       },
       {
         text: 'Consulta de Anticipo',
-        icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
       },
       {
         text: 'Aprobación de Anticipo',
-        icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
 
       }
-    ],
-  }
-]
+    ]
+  },
 
-const list = [
+  //index 1
   {
-    process: [
+    id: 2,
+    title: 'Administrador',
+    icon: <PeopleIcon />,
+    openIcon: <ExpandLess />,
+    closeIcon: <ExpandMore />,
+    expand: false,
+    subMenu: [
       {
-        anticipo: [
-          {
-            text: 'Anticipos',
-            icon: <PostAddIcon />,
-            openIcon: <ExpandLess />,
-            closeIcon: <ExpandMore />,
-            subMenu: [
-              {
-                text: 'Solicitud de anticipo',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
-              },
-              {
-                text: 'Consulta de Anticipo',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
-              },
-              {
-                text: 'Aprobación de Anticipo',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+        text: 'Usuarios',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Roles',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Clientes',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Proyectos',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Cargos',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Monedas',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      }
+    ]
+  },
 
-              }
-            ]
-          }],
-        administrador: [
-          {
-            text: 'Administrador',
-            icon: <PeopleIcon />,
-            openIcon: <ExpandLess />,
-            closeIcon: <ExpandMore />,
-            subMenu: [
-              {
-                text: 'Usuarios',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
-              },
-              {
-                text: 'Roles',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
-              },
-              {
-                text: 'Clientes',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
-              },
-              {
-                text: 'Proyectos',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
-              },
-              {
-                text: 'Cargos',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
-              },
-              {
-                text: 'Monedas',
-                icon: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
-              }
-            ]
-          }
-        ]
+  //index 2
+  {
+    id: 3,
+    title: 'Relación de Gastos',
+    icon: <AssigmentIcon />,
+    openIcon: <ExpandLess />,
+    closeIcon: <ExpandMore />,
+    expand: false,
+    subMenu: [
+      {
+        text: 'Solicitud de Gastos',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Consulta de Gastos',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
+      },
+      {
+        text: 'Aprobación de Gastos',
+        iconText: <ArrowForwardIosIcon sx={{ fontSize: 18 }} />,
       },
     ]
-  }
+  },
 ]
-
 
 export default function DrawerApp({ children, openDrawer }) {
 
@@ -246,6 +248,9 @@ export default function DrawerApp({ children, openDrawer }) {
     children: PropTypes.node.isRequired,
     openDrawer: PropTypes.bool.isRequired,
   };
+
+  //const for navigate 
+  const navigate = useNavigate();
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(openDrawer);
@@ -257,18 +262,6 @@ export default function DrawerApp({ children, openDrawer }) {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const [openIcon, setOpenIcon] = React.useState(false);
-
-  const handleIconOpen = () => {
-    setOpenIcon(!openIcon);
-  };
-
-  const [openIconAdm, setOpenIconAdm] = React.useState(false);
-
-  const handleIconOpenAdm = () => {
-    setOpenIconAdm(!openIconAdm);
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -293,6 +286,10 @@ export default function DrawerApp({ children, openDrawer }) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleGoToHome = () => {
+    navigate(properties.endpoints.Home)
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -419,7 +416,8 @@ export default function DrawerApp({ children, openDrawer }) {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: 'none', sm: 'block', cursor: "pointer" } }}
+            onClick={handleGoToHome}
           >
             ITBC Group
           </Typography>
@@ -476,121 +474,29 @@ export default function DrawerApp({ children, openDrawer }) {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      < Drawer variant="permanent" open={open} >
+      < Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List onClick={handleDrawerOpen}>
-          {list.map((text, index) => (
-            <ListItem key={index} disablePadding sx={{ display: 'block' }} >
-              {text.process.map((text, index) => (
-                <div key={index}>
-                  {text.anticipo.map((text, index) => (
-                    <div key={index}>
-                      <ListItemButton
-                        sx={{
-                          minHeight: 48,
-                          justifyContent: open ? 'initial' : 'center',
-                          px: 2.5,
-                        }}
-                        onClick={handleIconOpen}
-                      >
-                        <ListItemIcon
-                          sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : 'auto',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          {text.icon}
-                        </ListItemIcon>
-                        <ListItemText primary={text.text} sx={{ opacity: open ? 1 : 0 }} />
-                        {openIcon ? text.openIcon : text.closeIcon}
-                      </ListItemButton>
-                      <Collapse in={openIcon} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                          {text.subMenu.map((text, index) => (
-                            <ListItemButton key={index} sx={{ pl: 4 }}>
-                              <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
-                                {text.icon}
-                              </ListItemIcon>
-                              <ListItemText primary={text.text} />
-                            </ListItemButton>
-                          ))}
-                        </List>
-                      </Collapse>
-                    </div>
-                  ))}
-                  {text.administrador.map((text, index) => (
-                    <div key={index}>
-                      <ListItemButton
-                        sx={{
-                          minHeight: 48,
-                          justifyContent: open ? 'initial' : 'center',
-                          px: 2.5,
-                        }}
-                        onClick={handleIconOpenAdm}
-                      >
-                        <ListItemIcon
-                          sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : 'auto',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          {text.icon}
-                        </ListItemIcon>
-                        <ListItemText primary={text.text} sx={{ opacity: open ? 1 : 0 }} />
-                        {openIconAdm ? text.openIcon : text.closeIcon}
-                      </ListItemButton>
-                      <Collapse in={openIcon} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                          {text.subMenu.map((text, index) => (
-                            <ListItemButton key={index} sx={{ pl: 4 }}>
-                              <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
-                                {text.icon}
-                              </ListItemIcon>
-                              <ListItemText primary={text.text} />
-                            </ListItemButton>
-                          ))}
-                        </List>
-                      </Collapse>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </ListItem>
-
-          ))}
-        </List>
+        {
+          listPrimary.map(({ id, title, icon, openIcon, closeIcon, expand, subMenu }, index) => (
+            <Expand
+              key={index}
+              id={id}
+              title={title}
+              icon={icon}
+              openIcon={openIcon}
+              closeIcon={closeIcon}
+              expand={expand}
+              subMenu={subMenu}
+              handleDrawerOpen={handleDrawerOpen}
+            />
+          ))
+        }
         <Divider />
-        <List onClick={handleDrawerOpen}>
-          {['Reportes', 'Graficos'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
       </Drawer >
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
